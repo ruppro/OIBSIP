@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Login Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #f095da;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-field {
+            margin: 10px 0;
+            padding: 8px;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #00ccff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #5a35ec;
+        }
+
+        #loginForm {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome user! This is our Website</h1>
+
+        <div id="registrationForm">
+            <h2>Register</h2>
+            <input type="text" class="input-field" id="registerUsername" placeholder="Username">
+            <input type="password" class="input-field" id="registerPassword" placeholder="Password">
+            <button class="btn" onclick="register()">Register</button>
+        </div>
+
+        <div id="loginForm">
+            <h2>Login</h2>
+            <input type="text" class="input-field" id="loginUsername" placeholder="Username">
+            <input type="password" class="input-field" id="loginPassword" placeholder="Password">
+            <button class="btn" onclick="login()">Login</button>
+        </div>
+
+        <div id="securedPage" style="display: none;">
+            <h2>Secured Page</h2>
+            <p>Congratulations! You have access to the secured page.</p>
+        </div>
+    </div>
+
+    <script>
+        // User database (simple object)
+        const userDatabase = {};
+
+        function register() {
+            const registerUsername = document.getElementById("registerUsername").value;
+            const registerPassword = document.getElementById("registerPassword").value;
+
+            if (registerUsername && registerPassword) {
+                userDatabase[registerUsername] = registerPassword;
+                alert("Registration successful!");
+                clearFields("register");
+                showLoginForm();
+            } else {
+                alert("Please fill in both username and password fields.");
+            }
+        }
+
+        function login() {
+            const loginUsername = document.getElementById("loginUsername").value;
+            const loginPassword = document.getElementById("loginPassword").value;
+
+            if (userDatabase.hasOwnProperty(loginUsername) && userDatabase[loginUsername] === loginPassword) {
+                alert("Login successful!");
+                clearFields("login");
+                showSecuredPage();
+            } else {
+                alert("Incorrect username or password. Please try again.");
+                clearFields("login");
+            }
+        }
+
+        function clearFields(formName) {
+            document.getElementById(`${formName}Username`).value = "";
+            document.getElementById(`${formName}Password`).value = "";
+        }
+
+        function showLoginForm() {
+            document.getElementById("registrationForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        }
+
+        function showSecuredPage() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("securedPage").style.display = "block";
+        }
+    </script>
+</body>
+</html>
